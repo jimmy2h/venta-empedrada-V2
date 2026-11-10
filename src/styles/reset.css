@@ -1,0 +1,74 @@
+@layer reset {
+  /* Evitamos selectores universales (*) para respetar capas inferiores */
+  html,
+  body,
+  header,
+  nav,
+  search,
+  main,
+  section,
+  article,
+  aside,
+  footer,
+  div,
+  span,
+  figure,
+  figcaption,
+  blockquote,
+  form,
+  fieldset,
+  legend,
+  dialog,
+  button,
+  input,
+  textarea,
+  select,
+  ul,
+  ol,
+  li,
+  table,
+  th,
+  td {
+    box-sizing: border-box;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  ul[role='list'],
+  ol[role='list'],
+  .clean-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  img,
+  picture,
+  svg,
+  video {
+    display: block;
+    max-inline-size: 100%;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+}
+

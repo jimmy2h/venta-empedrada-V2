@@ -1,0 +1,39 @@
+/* Capas CSS en cascada determinista — Venta Empedrada V2 */
+@layer tokens, reset, base, layout, components, utilities;
+
+@import './tokens.css';
+@import './reset.css';
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+
+@layer utilities {
+  .text-olivo {
+    color: var(--color-olivo);
+  }
+
+  .text-muted {
+    color: var(--color-tinta-suave);
+  }
+
+  .text-serif {
+    font-family: var(--font-marca);
+  }
+
+  .mt-xs {
+    margin-block-start: var(--espacio-xs);
+  }
+
+  .mt-sm {
+    margin-block-start: var(--espacio-sm);
+  }
+
+  .mt-md {
+    margin-block-start: var(--espacio-md);
+  }
+
+  .mt-lg {
+    margin-block-start: var(--espacio-lg);
+  }
+}
+

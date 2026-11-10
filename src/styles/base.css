@@ -1,0 +1,111 @@
+@layer base {
+  html {
+    background-color: var(--color-caliza);
+    scroll-padding-block-start: 7.5rem;
+    /* Nunca fijamos font-size en :root o html para respetar <meta name="text-scale" content="scale" /> */
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    font-family: var(--font-cuerpo);
+    font-size: var(--text-cuerpo);
+    line-height: 1.55;
+    color: var(--color-tinta);
+    background-color: var(--color-caliza);
+    text-align: start;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-marca);
+    font-weight: 400;
+    line-height: 1.18;
+    color: var(--color-olivo);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+  }
+
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+
+  .prose-measure {
+    max-inline-size: var(--measure-prose);
+  }
+
+  :where(a:any-link, button, summary, input, textarea, select):focus-visible {
+    outline: 3px solid var(--color-olivo);
+    outline-offset: 3px;
+  }
+
+  .hero-dark-band :where(a:any-link, button):focus-visible,
+  .newsletter-dark-band :where(a:any-link, button, input, label):focus-visible,
+  .site-footer :where(a:any-link, button):focus-visible,
+  .bento-tile:focus-visible {
+    outline: 3px solid var(--color-caliza);
+    outline-offset: 3px;
+  }
+
+  .visually-hidden:where(:not(:focus-within, :active)) {
+    position: absolute !important;
+    clip-path: inset(50%) !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .skip-link {
+    position: fixed;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    z-index: 1200;
+    background: var(--color-olivo);
+    color: var(--color-caliza);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radio-suave);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* Soporte explícito para Forced Colors Mode (Windows High Contrast) */
+  @media (forced-colors: active) {
+    .btn-primary,
+    .btn-secondary,
+    .btn-quiet,
+    .btn-outline-light,
+    .shop-card,
+    .gift-card-box,
+    .cart-trigger,
+    .bento-tile,
+    .spotlight-tab {
+      border: 2px solid ButtonText;
+    }
+  }
+}
+

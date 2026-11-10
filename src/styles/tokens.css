@@ -1,0 +1,74 @@
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    /* Tokens para interpolación cromática segura en degradados con fallback pre-2024 */
+    --in-oklab: ;
+    --in-oklch: ;
+
+    /* Paleta oficial extraída de la lámina de identidad Venta Empedrada */
+    --color-olivo: #293d32;
+    --color-olivo-oscuro: #1d2c24;
+    --color-olivo-profundo: #142019;
+    --color-olivo-suave: #e9eeea;
+
+    --color-caliza: #f4f0e7;
+    --color-caliza-clara: #faf8f3;
+    --color-caliza-borde: #d9d1c0;
+    --color-piedra: #e6dfd1;
+    --color-borde-piedra: #d2c8b4;
+    --color-borde-fuerte: #6c685e; /* > 3:1 sobre caliza para controles según WCAG 1.4.11 */
+
+    --color-miel: #be852c;
+    --color-miel-tinta: #754d0c;
+    --color-miel-suave: #f9f1e1;
+
+    --color-barro: #ab5e43;
+    --color-barro-tinta: #7c3b24;
+    --color-barro-suave: #f7ece8;
+
+    --color-tinta: #1d2621;
+    --color-tinta-suave: #4a554d;
+
+    --color-error: #9e2a2b;
+    --color-error-fondo: #fdf2f2;
+    --color-exito: #1f5135;
+    --color-exito-fondo: #ebf4ee;
+
+    /* Familias tipográficas especificadas en manual */
+    --font-marca: 'Georgia', 'Noto Serif', Cambria, 'Times New Roman', serif;
+    --font-cuerpo: 'Calibri', 'Carlito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+    /* Escala fluida acotada (max <= 2.5 * min) compatible con zoom 200% */
+    --text-h1: clamp(2.15rem, 1.55rem + 2.2vw, 3.6rem);
+    --text-h2: clamp(1.65rem, 1.32rem + 1.25vw, 2.5rem);
+    --text-h3: clamp(1.25rem, 1.12rem + 0.5vw, 1.65rem);
+    --text-cuerpo: clamp(1.125rem, 1.08rem + 0.16vw, 1.1875rem);
+    --text-nota: 0.96rem;
+    --measure-prose: 60ch;
+
+    /* Espaciado, radios y objetivos táctiles */
+    --espacio-xs: 0.5rem;
+    --espacio-sm: 0.875rem;
+    --espacio-md: 1.5rem;
+    --espacio-lg: 2.5rem;
+    --espacio-xl: 4.5rem;
+
+    --radio-suave: 6px;
+    --radio-tarjeta: 10px;
+    --touch-min: 48px;
+
+    --sombra-sutil: 0 2px 10px rgba(29, 38, 33, 0.06);
+    --sombra-elevada: 0 12px 32px rgba(29, 38, 33, 0.14);
+
+    --container-max: 78rem;
+  }
+
+  @supports (linear-gradient(in oklab, white, black)) {
+    :root {
+      --in-oklab: in oklab;
+      --in-oklch: in oklch;
+    }
+  }
+}
+

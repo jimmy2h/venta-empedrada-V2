@@ -1,0 +1,175 @@
+@layer layout {
+  .container {
+    inline-size: min(calc(100% - clamp(1.5rem, 5vw, 3.5rem)), var(--container-max));
+    margin-inline: auto;
+  }
+
+  .section-pad {
+    padding-block: clamp(3rem, 2.2rem + 2.8vw, 4.75rem);
+  }
+
+  .section-surface-light {
+    background-color: var(--color-caliza-clara);
+    border-block: 1px solid var(--color-caliza-borde);
+  }
+
+  .section-surface-stone {
+    background-color: var(--color-piedra);
+    border-block: 1px solid var(--color-borde-piedra);
+  }
+
+  .section-header {
+    display: grid;
+    gap: 0.65rem;
+    margin-block-end: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  }
+
+  .split-grid {
+    display: grid;
+    gap: clamp(1.75rem, 1.3rem + 2vw, 3.25rem);
+    align-items: center;
+  }
+
+  @media (min-width: 56em) {
+    .split-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    }
+  }
+
+  /* Spotlight 60% imagen / 40% ficha (replica sección icono Finca La Barca) */
+  .iconic-split-grid {
+    display: grid;
+    gap: clamp(1.75rem, 1.5rem + 2vw, 3.25rem);
+    align-items: center;
+  }
+
+  @media (min-width: 58em) {
+    .iconic-split-grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+  }
+
+  /* Mosaico asimétrico 4 columnas x 3 filas en escritorio (idéntica estructura visual) */
+  .bento-mosaic-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(14rem, auto);
+    gap: 0.85rem;
+  }
+
+  @media (min-width: 62em) {
+    .bento-mosaic-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: repeat(3, minmax(12.5rem, 14.5rem));
+      gap: 0.85rem;
+    }
+
+    .bento-tile:nth-child(1) {
+      grid-area: 1 / 1 / span 2 / span 2;
+    }
+
+    .bento-tile:nth-child(2) {
+      grid-area: 1 / 3 / span 1 / span 1;
+    }
+
+    .bento-tile:nth-child(3) {
+      grid-area: 1 / 4 / span 1 / span 1;
+    }
+
+    .bento-tile:nth-child(4) {
+      grid-area: 3 / 1 / span 1 / span 1;
+    }
+
+    .bento-tile:nth-child(5) {
+      grid-area: 2 / 3 / span 2 / span 2;
+    }
+
+    .bento-tile:nth-child(6) {
+      grid-area: 3 / 2 / span 1 / span 1;
+    }
+  }
+
+  @media (max-width: 61.999em) {
+    .bento-tile:nth-child(1),
+    .bento-tile:nth-child(5) {
+      grid-column: span 2;
+      min-block-size: 18rem;
+    }
+  }
+
+  @media (max-width: 34em) {
+    .bento-mosaic-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bento-tile:nth-child(1),
+    .bento-tile:nth-child(5) {
+      grid-column: auto;
+      min-block-size: 16rem;
+    }
+  }
+
+  /* Cuadrícula WooCommerce-style de 4 columnas con alineación subgrid por regiones */
+  .recommended-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.35rem;
+  }
+
+  @media (min-width: 38em) {
+    .recommended-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 68em) {
+    .recommended-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Rituales en mesa y valores */
+  .rituales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .valores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1rem;
+  }
+
+  /* Banda Newsletter + Fotografía editorial 38% / 62% */
+  .newsletter-split-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @media (min-width: 58em) {
+    .newsletter-split-layout {
+      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    }
+  }
+
+  /* Footer de 4 columnas (estructura Finca La Barca) */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  @media (min-width: 44em) {
+    .footer-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 68em) {
+    .footer-grid {
+      grid-template-columns: 1.25fr 0.9fr 1fr 1fr;
+    }
+  }
+}
+
