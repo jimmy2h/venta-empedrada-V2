@@ -21,6 +21,16 @@ export const BRAND_IDENTITY = {
     'Diseñado priorizando claridad, legibilidad (cuerpo ≥ 18 px, alto contraste olivo sobre caliza) y compra propia o asistida sin complicaciones.',
 };
 
+export const FINCA_BANNER_CONTENT = {
+  eyebrow: 'Relato de la finca · Finca La Venta Empedrada',
+  headline: 'Un origen que puedes conocer',
+  lead:
+    'Venta Empedrada nace alrededor de una antigua venta del interior de Almería. Recuperamos sus bancales y su vocación de dar de comer para crear una despensa de aceite, miel y almendras. Productos con origen, hechos para disfrutar y compartir.',
+  tagline: 'El sabor de Volver a la tierra.',
+  ctaLabel: 'Conoce la finca',
+  image: './images/finca-amanecer.png',
+};
+
 export const STORY_CHAPTERS = [
   {
     id: 'origen-camino',
@@ -126,18 +136,8 @@ export const TABLE_RITUALS = [
 
 export const MOSAIC_TILES = [
   {
-    id: 'tile-olivar',
-    title: 'AOVE Picual',
-    subtitle: 'El Olivar · 500 ml',
-    accent: '#293D32',
-    image: './images/producto-picual.jpg',
-    imageAlt: 'Botella de Aceite de Oliva Virgen Extra Picual Venta Empedrada',
-    actionType: 'category',
-    categoryId: 'olivar',
-    targetId: 'recomendamos',
-  },
-  {
     id: 'tile-romeral',
+    slotClass: 'bento-tile--slot-1',
     title: 'Miel de Romero',
     subtitle: 'El Romeral · 500 g',
     accent: '#BE852C',
@@ -149,6 +149,7 @@ export const MOSAIC_TILES = [
   },
   {
     id: 'tile-almendral',
+    slotClass: 'bento-tile--slot-2',
     title: 'Almendra Marcona',
     subtitle: 'El Almendral · 250 g',
     accent: '#AB5E43',
@@ -159,17 +160,8 @@ export const MOSAIC_TILES = [
     targetId: 'recomendamos',
   },
   {
-    id: 'tile-finca',
-    title: 'La Finca y su historia',
-    subtitle: 'Camino de piedra · Almería',
-    accent: '#293D32',
-    image: './images/finca-amanecer.png',
-    imageAlt: 'Camino empedrado y bancales de la finca al amanecer',
-    actionType: 'anchor',
-    targetId: 'finca',
-  },
-  {
     id: 'tile-regalo',
+    slotClass: 'bento-tile--featured',
     title: 'Caja La Mesa de la Venta',
     subtitle: 'Colección completa y regalo',
     accent: '#293D32',
@@ -177,16 +169,6 @@ export const MOSAIC_TILES = [
     imageAlt: 'Caja regalo La Mesa de la Venta con los tres productos',
     actionType: 'anchor',
     targetId: 'la-mesa-de-la-venta',
-  },
-  {
-    id: 'tile-lotes',
-    title: 'Origen y Lotes',
-    subtitle: 'Trazabilidad y ecología',
-    accent: '#293D32',
-    image: './images/mesa-consumo.png',
-    imageAlt: 'Mesa con tostadas de aceite, yogur con miel y almendras',
-    actionType: 'anchor',
-    targetId: 'practicas',
   },
 ];
 

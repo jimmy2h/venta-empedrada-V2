@@ -49,51 +49,40 @@
     }
   }
 
-  /* Mosaico asimétrico 4 columnas x 3 filas en escritorio (idéntica estructura visual) */
+  /* Mosaico asimétrico: bloque editorial "En tu mesa" a la izquierda + 3 fichas visuales a la derecha */
   .bento-mosaic-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: minmax(14rem, auto);
+    grid-auto-rows: minmax(13rem, auto);
     gap: 0.85rem;
+  }
+
+  .bento-editorial-panel,
+  .bento-tile--featured {
+    grid-column: span 2;
   }
 
   @media (min-width: 62em) {
     .bento-mosaic-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      grid-template-rows: repeat(3, minmax(12.5rem, 14.5rem));
+      grid-template-rows: repeat(3, minmax(12rem, 1fr));
       gap: 0.85rem;
     }
 
-    .bento-tile:nth-child(1) {
-      grid-area: 1 / 1 / span 2 / span 2;
+    .bento-editorial-panel {
+      grid-area: 1 / 1 / span 3 / span 2;
     }
 
-    .bento-tile:nth-child(2) {
+    .bento-tile--slot-1 {
       grid-area: 1 / 3 / span 1 / span 1;
     }
 
-    .bento-tile:nth-child(3) {
+    .bento-tile--slot-2 {
       grid-area: 1 / 4 / span 1 / span 1;
     }
 
-    .bento-tile:nth-child(4) {
-      grid-area: 3 / 1 / span 1 / span 1;
-    }
-
-    .bento-tile:nth-child(5) {
+    .bento-tile--featured {
       grid-area: 2 / 3 / span 2 / span 2;
-    }
-
-    .bento-tile:nth-child(6) {
-      grid-area: 3 / 2 / span 1 / span 1;
-    }
-  }
-
-  @media (max-width: 61.999em) {
-    .bento-tile:nth-child(1),
-    .bento-tile:nth-child(5) {
-      grid-column: span 2;
-      min-block-size: 18rem;
     }
   }
 
@@ -102,18 +91,17 @@
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .bento-tile:nth-child(1),
-    .bento-tile:nth-child(5) {
+    .bento-editorial-panel,
+    .bento-tile--featured {
       grid-column: auto;
-      min-block-size: 16rem;
     }
   }
 
-  /* Cuadrícula WooCommerce-style de 4 columnas con alineación subgrid por regiones */
+  /* Cuadrícula de 3 columnas con alineación subgrid por regiones */
   .recommended-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.35rem;
+    gap: 1.5rem;
   }
 
   @media (min-width: 38em) {
@@ -122,9 +110,9 @@
     }
   }
 
-  @media (min-width: 68em) {
+  @media (min-width: 56em) {
     .recommended-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -141,16 +129,13 @@
     gap: 1rem;
   }
 
-  /* Banda Newsletter + Fotografía editorial 38% / 62% */
-  .newsletter-split-layout {
+  /* Banda Newsletter centrada en columna única legible */
+  .newsletter-centered-shell {
+    inline-size: min(100%, 40rem);
+    margin-inline: auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  @media (min-width: 58em) {
-    .newsletter-split-layout {
-      grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
-    }
+    gap: 1.5rem;
+    justify-items: stretch;
   }
 
   /* Footer de 4 columnas (estructura Finca La Barca) */

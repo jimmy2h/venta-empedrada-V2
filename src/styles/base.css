@@ -1,7 +1,7 @@
 @layer base {
   html {
     background-color: var(--color-caliza);
-    scroll-padding-block-start: 7.5rem;
+    scroll-padding-block-start: 5.75rem;
     /* Nunca fijamos font-size en :root o html para respetar <meta name="text-scale" content="scale" /> */
   }
 
@@ -18,6 +18,9 @@
     color: var(--color-tinta);
     background-color: var(--color-caliza);
     text-align: start;
+  }
+
+  main {
     overflow-x: clip;
   }
 
@@ -60,7 +63,9 @@
     outline-offset: 3px;
   }
 
+  .site-header--hero-overlay :where(a:any-link, button):focus-visible,
   .hero-dark-band :where(a:any-link, button):focus-visible,
+  .finca-banner-section :where(a:any-link, button):focus-visible,
   .newsletter-dark-band :where(a:any-link, button, input, label):focus-visible,
   .site-footer :where(a:any-link, button):focus-visible,
   .bento-tile:focus-visible {
@@ -95,6 +100,34 @@
 
   /* Soporte explícito para Forced Colors Mode (Windows High Contrast) */
   @media (forced-colors: active) {
+    .finca-banner-bg {
+      display: none;
+    }
+
+    .finca-banner-content {
+      background-color: Canvas;
+      color: CanvasText;
+      border: 2px solid CanvasText;
+      border-radius: var(--radio-suave);
+      padding: 1.5rem;
+    }
+
+    .finca-banner-heading,
+    .finca-banner-lead,
+    .finca-banner-tagline {
+      color: CanvasText;
+      text-shadow: none;
+    }
+
+    .newsletter-form-surface,
+    .newsletter-status-card {
+      border: 2px solid CanvasText;
+    }
+
+    .nav-link-cat:is([aria-current='true'], [aria-current='page']) {
+      border-block-end: 3px solid Highlight;
+    }
+
     .btn-primary,
     .btn-secondary,
     .btn-quiet,
@@ -103,7 +136,9 @@
     .gift-card-box,
     .cart-trigger,
     .bento-tile,
-    .spotlight-tab {
+    .bento-ritual-card,
+    .spotlight-tab,
+    .gift-free-badge {
       border: 2px solid ButtonText;
     }
   }

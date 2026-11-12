@@ -1,29 +1,25 @@
-import { useId } from 'react';
-import { Palette, Search, ShoppingBasket, X } from 'lucide-react';
+import { ShoppingBasket } from 'lucide-react';
 import { BrandWordmark } from './BrandMark';
 import { CATALOG_CATEGORIES } from '../data/products';
 import { useCart } from '../context/useCart';
 
 const formatEuro = (value) => `${value.toFixed(2).replace('.', ',')} €`;
 
-export function SiteHeader({
+const NAV_CATEGORIES = CATALOG_CATEGORIES.filter((cat) => cat.id === 'cajas');
+
+export function StoreCategoryNav({
   activeView,
   selectedCategory,
-  searchQuery,
   onSelectCategory,
-  onSearchChange,
   onNavigate,
 }) {
-  const { totalCount, subtotal, setIsDrawerOpen } = useCart();
-  const searchInputId = useId();
-
   const handleCategoryClick = (catId) => {
+    if (catId === 'cajas') {
+      onSelectCategory('todos');
+      onNavigate('tienda', 'la-mesa-de-la-venta');
+      return;
+    }
     onSelectCategory(catId);
-    onNavigate('tienda', 'recomendamos');
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
     onNavigate('tienda', 'recomendamos');
   };
 
@@ -33,12 +29,102 @@ export function SiteHeader({
   };
 
   return (
-    <header className="site-header">
+    <div className="header-nav-row">
+      <div className="container">
+        <nav aria-label="Secciones de la tienda y la finca">
+          <ul className="clean-list header-nav-list" role="list">
+            {NAV_CATEGORIES.map((cat) => {
+              const isActive = activeView === 'tienda' && selectedCategory === cat.id;
+              return (
+                <li key={cat.id}>
+                  <button
+                    type="button"
+                    className="nav-link-cat"
+                    aria-current={isActive ? 'true' : undefined}
+                    onClick={() => handleCategoryClick(cat.id)}
+                  >
+                    {cat.accent && (
+                      <span
+                        className="dot-swatch"
+                        style={{ backgroundColor: cat.accent }}
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span>{cat.navLabel}</span>
+                  </button>
+                </li>
+              );
+            })}
+
+            <li>
+              <button
+                type="button"
+                className="nav-link-cat"
+                aria-current={activeView === 'finca' ? 'page' : undefined}
+                onClick={() => onNavigate('finca')}
+              >
+                La Finca
+              </button>
+            </li>
+            <li>
+              <a
+                href="#practicas"
+                className="nav-link-cat"
+                onClick={(e) => handleAnchorClick(e, 'practicas')}
+              >
+                Origen y lotes
+              </a>
+            </li>
+            <li>
+              <a
+                href="#ideas-mesa"
+                className="nav-link-cat"
+                onClick={(e) => handleAnchorClick(e, 'ideas-mesa')}
+              >
+                En tu mesa
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contacto"
+                className="nav-link-cat"
+                onClick={(e) => handleAnchorClick(e, 'contacto')}
+              >
+                Noticias
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+}
+
+export function SiteHeader({
+  activeView,
+  selectedCategory,
+  onSelectCategory,
+  onNavigate,
+  isScrolledPastHero = false,
+}) {
+  const { totalCount, subtotal, setIsDrawerOpen } = useCart();
+  const isHeroOverlay = activeView === 'tienda';
+
+  const headerClassName = [
+    'site-header',
+    isHeroOverlay ? 'site-header--hero-overlay' : 'site-header--solid',
+    isHeroOverlay && isScrolledPastHero ? 'is-past-hero' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <header className={headerClassName}>
       <a href="#contenido-principal" className="skip-link visually-hidden">
         Ir directamente al contenido principal
       </a>
 
-      {/* Fila 1: Marca · Buscador · Sistema de marca y Cesta con importe */}
+      {/* Fila superior: Marca · Sistema de marca y Cesta con importe */}
       <div className="header-top-row">
         <div className="container header-top-inner">
           <a
@@ -47,68 +133,14 @@ export function SiteHeader({
             onClick={(e) => {
               e.preventDefault();
               onSelectCategory('todos');
-              onSearchChange('');
               onNavigate('tienda');
             }}
             aria-label="Venta Empedrada — Volver al inicio de la tienda"
           >
-            <BrandWordmark showDescriptor compact />
+            <BrandWordmark showDescriptor compact inverted={isHeroOverlay} />
           </a>
 
-          <div className="header-search-wrap">
-            <search>
-              <form
-                className="header-search-form"
-                onSubmit={handleSearchSubmit}
-                aria-label="Buscar productos de la finca"
-              >
-                <label htmlFor={searchInputId} className="visually-hidden">
-                  Buscar en la despensa de Venta Empedrada
-                </label>
-                <input
-                  id={searchInputId}
-                  type="search"
-                  name="q"
-                  className="header-search-input"
-                  value={searchQuery}
-                  onChange={(e) => onSearchChange(e.target.value)}
-                  placeholder="Buscar Picual, miel de romero, Marcona, lote..."
-                  autoCorrect="off"
-                  autoCapitalize="none"
-                  spellCheck={false}
-                />
-                {searchQuery.trim() && (
-                  <button
-                    type="button"
-                    className="header-search-icon-btn"
-                    aria-label="Limpiar búsqueda"
-                    onClick={() => onSearchChange('')}
-                  >
-                    <X size={18} aria-hidden="true" />
-                  </button>
-                )}
-                <button
-                  type="submit"
-                  className="header-search-icon-btn"
-                  aria-label="Buscar productos"
-                >
-                  <Search size={19} aria-hidden="true" />
-                </button>
-              </form>
-            </search>
-          </div>
-
           <div className="header-actions">
-            <button
-              type="button"
-              className="nav-pill-identidad"
-              aria-pressed={activeView === 'identidad'}
-              onClick={() => onNavigate(activeView === 'identidad' ? 'tienda' : 'identidad')}
-            >
-              <Palette size={18} aria-hidden="true" />
-              <span>{activeView === 'identidad' ? 'Volver a tienda' : 'Sistema de marca'}</span>
-            </button>
-
             <button
               type="button"
               className="cart-trigger"
@@ -127,83 +159,14 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* Fila 2: Barra de categorías de despensa y secciones editoriales */}
-      <div className="header-nav-row">
-        <div className="container">
-          <nav aria-label="Categorías y secciones de la finca">
-            <ul className="clean-list header-nav-list" role="list">
-              {CATALOG_CATEGORIES.map((cat) => {
-                const isActive = activeView === 'tienda' && selectedCategory === cat.id;
-                return (
-                  <li key={cat.id}>
-                    <button
-                      type="button"
-                      className="nav-link-cat"
-                      aria-current={isActive ? 'true' : undefined}
-                      onClick={() => handleCategoryClick(cat.id)}
-                    >
-                      {cat.accent && (
-                        <span
-                          className="dot-swatch"
-                          style={{ backgroundColor: cat.accent }}
-                          aria-hidden="true"
-                        />
-                      )}
-                      <span>{cat.navLabel}</span>
-                    </button>
-                  </li>
-                );
-              })}
-
-              <li>
-                <a
-                  href="#la-mesa-de-la-venta"
-                  className="nav-link-cat"
-                  onClick={(e) => handleAnchorClick(e, 'la-mesa-de-la-venta')}
-                >
-                  Personalizar caja
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#finca"
-                  className="nav-link-cat"
-                  onClick={(e) => handleAnchorClick(e, 'finca')}
-                >
-                  La Finca
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#practicas"
-                  className="nav-link-cat"
-                  onClick={(e) => handleAnchorClick(e, 'practicas')}
-                >
-                  Origen y lotes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#ideas-mesa"
-                  className="nav-link-cat"
-                  onClick={(e) => handleAnchorClick(e, 'ideas-mesa')}
-                >
-                  En tu mesa
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contacto"
-                  className="nav-link-cat"
-                  onClick={(e) => handleAnchorClick(e, 'contacto')}
-                >
-                  Noticias
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
+      {!isHeroOverlay && (
+        <StoreCategoryNav
+          activeView={activeView}
+          selectedCategory={selectedCategory}
+          onSelectCategory={onSelectCategory}
+          onNavigate={onNavigate}
+        />
+      )}
     </header>
   );
 }

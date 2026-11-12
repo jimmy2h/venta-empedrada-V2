@@ -87,34 +87,15 @@ export function ProductDetailDialog({ product, onClose }) {
           <div style={{ padding: '1.4rem' }}>
             <div className="split-grid" style={{ gap: '1.75rem', alignItems: 'start' }}>
               <div>
-                <div
-                  style={{
-                    position: 'relative',
-                    backgroundColor: '#ffffff',
-                    borderRadius: 'var(--radio-suave)',
-                    overflow: 'hidden',
-                    border: '1px solid var(--color-caliza-borde)',
-                  }}
-                >
+                <div className="detail-media-stage">
                   <img
                     src={product.image}
                     alt={product.imageAlt}
-                    width="900"
-                    height="900"
-                    style={{ inlineSize: '100%', aspectRatio: '1 / 1', objectFit: 'cover' }}
+                    width={isGiftBox ? 1536 : 1024}
+                    height={isGiftBox ? 1024 : 682}
                     onError={(e) => {
                       e.currentTarget.src = product.fallbackImage;
                     }}
-                  />
-                  <span
-                    style={{
-                      position: 'absolute',
-                      insetBlockEnd: 0,
-                      insetInline: 0,
-                      blockSize: '6px',
-                      backgroundColor: product.accentColor,
-                    }}
-                    aria-hidden="true"
                   />
                 </div>
                 <p className="text-muted mt-sm" style={{ fontSize: '0.92rem' }}>
@@ -237,7 +218,6 @@ export function ProductDetailDialog({ product, onClose }) {
                       onClick={() => {
                         addItem(product.id, qty, {
                           openDrawer: true,
-                          ...(isGiftBox ? { conEstuche: true } : {}),
                         });
                         handleClose();
                       }}

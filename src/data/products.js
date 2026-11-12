@@ -162,7 +162,6 @@ export const GIFT_BOX = {
   unitMeasureLabel: '3 productos | Ahorro 1,70 € frente a suelto',
   price: 38.5,
   individualTotal: 40.2,
-  giftWrapPrice: 3.5,
   accentColor: '#293D32',
   ctaLabel: 'Añadir caja completa',
   image: './images/caja-mesa-venta.png',
@@ -190,7 +189,7 @@ export const GIFT_BOX = {
 };
 
 export const CATALOG_CATEGORIES = [
-  { id: 'todos', label: 'Toda la despensa', navLabel: 'Toda la despensa', count: 4 },
+  { id: 'todos', label: 'Toda la despensa', navLabel: 'Toda la despensa', count: 3 },
   { id: 'olivar', label: 'Aceites · El Olivar', navLabel: 'Aceites', count: 1, accent: '#293D32' },
   { id: 'romeral', label: 'Mieles · El Romeral', navLabel: 'Mieles', count: 1, accent: '#BE852C' },
   {
@@ -202,6 +201,8 @@ export const CATALOG_CATEGORIES = [
   },
   { id: 'cajas', label: 'Cajas Regalo', navLabel: 'Cajas Regalo', count: 1, accent: '#293D32' },
 ];
+
+export const RECOMMENDED_CATEGORIES = CATALOG_CATEGORIES.filter((cat) => cat.id !== 'cajas');
 
 export const CATALOG_ITEMS = [...PRODUCTS, GIFT_BOX];
 

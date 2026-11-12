@@ -35,24 +35,14 @@ export function FincaStorySection() {
 
           <div>
             <figure>
-              <div
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid var(--color-caliza-borde)',
-                  borderRadius: 'var(--radio-tarjeta)',
-                  padding: '1.25rem',
-                  boxShadow: 'var(--sombra-sutil)',
-                }}
-              >
-                <img
-                  src="./images/infografia-coleccion.png"
-                  alt="Esquema de colección Venta Empedrada: El Olivar (Picual 500 ml para terminar un plato), El Romeral (Miel de romero 500 g para endulzar el desayuno) y El Almendral (Marcona 250 g para compartir un aperitivo), reunidos en Caja La Mesa de la Venta."
-                  width="1800"
-                  height="800"
-                  loading="lazy"
-                  style={{ borderRadius: 'var(--radio-suave)' }}
-                />
-              </div>
+              <img
+                src="./images/infografia-coleccion.png"
+                alt="Esquema de colección Venta Empedrada: El Olivar (Picual 500 ml para terminar un plato), El Romeral (Miel de romero 500 g para endulzar el desayuno) y El Almendral (Marcona 250 g para compartir un aperitivo), reunidos en Caja La Mesa de la Venta."
+                width="1800"
+                height="800"
+                loading="lazy"
+                className="story-infographic-img"
+              />
               <figcaption className="hero-caption">
                 Arquitectura de colección: tres parajes de una misma finca con reposición por separado.
               </figcaption>

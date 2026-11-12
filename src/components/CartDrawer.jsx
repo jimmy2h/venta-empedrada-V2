@@ -55,11 +55,8 @@ export function CartDrawer() {
     items,
     totalCount,
     subtotal,
-    conEstuche,
-    setConEstuche,
     dedicatoria,
     setDedicatoria,
-    giftWrapCost,
     shippingCost,
     grandTotal,
     amountToFreeShipping,
@@ -84,7 +81,6 @@ export function CartDrawer() {
   const [completedOrder, setCompletedOrder] = useState(null);
 
   const drawerTitleId = useId();
-  const wrapId = useId();
   const noteId = useId();
   const checkoutFormId = useId();
 
@@ -199,7 +195,6 @@ export function CartDrawer() {
         quantity: item.quantity,
         lineTotal: item.lineTotal,
       })),
-      conEstuche,
       dedicatoria: dedicatoria.trim(),
       shippingCost,
       grandTotal,
@@ -212,9 +207,6 @@ export function CartDrawer() {
     setErrors({});
     setStep('confirmado');
   };
-
-  const hasBox = items.some((item) => item.id === GIFT_BOX.id);
-  const showGiftNoteField = conEstuche || hasBox;
 
   return (
     <dialog
@@ -299,10 +291,10 @@ export function CartDrawer() {
                   <strong>{formatEuro(entry.lineTotal)}</strong>
                 </li>
               ))}
-              {completedOrder.conEstuche && (
+              {completedOrder.dedicatoria && (
                 <li className="cart-summary-row">
-                  <span>Estuche de regalo y tarjeta impresa</span>
-                  <strong>{formatEuro(GIFT_BOX.giftWrapPrice)}</strong>
+                  <span>Tarjeta impresa con dedicatoria</span>
+                  <strong>Gratis</strong>
                 </li>
               )}
               <li className="cart-summary-row">
@@ -375,7 +367,7 @@ export function CartDrawer() {
             <button
               type="button"
               className="btn-secondary"
-              onClick={() => addItem(GIFT_BOX.id, 1, { conEstuche: true })}
+              onClick={() => addItem(GIFT_BOX.id, 1)}
             >
               <Gift size={18} aria-hidden="true" />
               <span>Elegir caja {GIFT_BOX.name} ({formatEuro(GIFT_BOX.price)})</span>
@@ -475,34 +467,19 @@ export function CartDrawer() {
             </ul>
 
             <div className="cart-gift-panel">
-              <label htmlFor={wrapId} className="checkbox-row">
-                <input
-                  id={wrapId}
-                  type="checkbox"
-                  checked={conEstuche}
-                  onChange={(e) => setConEstuche(e.target.checked)}
+              <div className="field-group" style={{ marginBlockEnd: 0 }}>
+                <label htmlFor={noteId} className="field-label">
+                  Dedicatoria personalizada en tarjeta · Gratis (opcional)
+                </label>
+                <textarea
+                  id={noteId}
+                  className="field-textarea"
+                  maxLength={220}
+                  placeholder="Si es para regalar, escribe aquí unas palabras para quien abre la caja."
+                  value={dedicatoria}
+                  onChange={(e) => setDedicatoria(e.target.value)}
                 />
-                <span>
-                  Añadir estuche de regalo preparado y tarjeta impresa (+
-                  {formatEuro(GIFT_BOX.giftWrapPrice)})
-                </span>
-              </label>
-
-              {showGiftNoteField && (
-                <div className="field-group" style={{ marginBlockEnd: 0 }}>
-                  <label htmlFor={noteId} className="field-label">
-                    Mensaje de dedicatoria (opcional)
-                  </label>
-                  <textarea
-                    id={noteId}
-                    className="field-textarea"
-                    maxLength={220}
-                    placeholder="Si es para regalar, escribe aquí unas palabras para quien abre la caja."
-                    value={dedicatoria}
-                    onChange={(e) => setDedicatoria(e.target.value)}
-                  />
-                </div>
-              )}
+              </div>
             </div>
           </>
         )}
@@ -693,12 +670,6 @@ export function CartDrawer() {
               <span>Productos ({totalCount})</span>
               <span>{formatEuro(subtotal)}</span>
             </div>
-            {giftWrapCost > 0 && (
-              <div className="cart-summary-row">
-                <span>Estuche preparado y tarjeta</span>
-                <span>{formatEuro(giftWrapCost)}</span>
-              </div>
-            )}
             <div className="cart-summary-row">
               <span>Envío estimado ({SHIPPING_CONFIG.estimatedDays})</span>
               <span>{shippingCost === 0 ? 'Gratis' : formatEuro(shippingCost)}</span>

@@ -21,16 +21,11 @@ export function IconicShowcaseSection({ onInspectProduct }) {
             <img
               src={item.image}
               alt={item.imageAlt}
-              width="1200"
-              height="825"
+              width={item.id === PRODUCTS[0].id ? 1024 : 1536}
+              height={item.id === PRODUCTS[0].id ? 682 : 1024}
               onError={(e) => {
                 e.currentTarget.src = item.fallbackImage;
               }}
-            />
-            <span
-              className="iconic-family-stripe"
-              style={{ backgroundColor: item.accentColor }}
-              aria-hidden="true"
             />
           </div>
 

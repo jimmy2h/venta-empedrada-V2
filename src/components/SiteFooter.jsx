@@ -12,6 +12,11 @@ export function SiteFooter({ activeView, onSelectCategory, onNavigate }) {
   };
 
   const navigateToCategory = (categoryId) => {
+    if (categoryId === 'cajas') {
+      onSelectCategory('todos');
+      onNavigate('tienda', 'la-mesa-de-la-venta');
+      return;
+    }
     onSelectCategory(categoryId);
     onNavigate('tienda', 'recomendamos');
   };
@@ -66,13 +71,13 @@ export function SiteFooter({ activeView, onSelectCategory, onNavigate }) {
               <h2>Información y Marca</h2>
               <ul className="clean-list" role="list">
                 <li>
-                  <a
-                    href="#finca"
+                  <button
+                    type="button"
                     className="footer-link"
-                    onClick={(e) => navigateToSection(e, 'finca')}
+                    onClick={() => onNavigate('finca')}
                   >
                     Sobre nuestra finca
-                  </a>
+                  </button>
                 </li>
                 <li>
                   <a
@@ -148,7 +153,7 @@ export function SiteFooter({ activeView, onSelectCategory, onNavigate }) {
           </div>
 
           <p className="footer-disclaimer">
-            <strong>Nota editorial y de proyecto (V2):</strong> Esta versión desarrolla la arquitectura estructural de escaparate y tienda online (cabecera de doble fila con buscador, héroe atmosférico, foco de icono, mosaico asimétrico, recomendaciones de 4 columnas, franja de novedades y pie estructurado) aplicando al 100 % el sistema de marca, productos, tonos (Olivo, Caliza, Miel y Barro) y textos originales de <em>Marca y contenidos · Venta Empedrada</em>. Los datos comerciales, lotes y pasarela representan una simulación creativa académica sin cobros reales.
+            <strong>Nota editorial y de proyecto (V2):</strong> Esta versión desarrolla la arquitectura estructural de escaparate y tienda online (cabecera de doble fila con buscador, héroe atmosférico, foco de icono, mosaico asimétrico, recomendaciones de 3 columnas, franja de novedades y pie estructurado) aplicando al 100 % el sistema de marca, productos, tonos (Olivo, Caliza, Miel y Barro) y textos originales de <em>Marca y contenidos · Venta Empedrada</em>. Los datos comerciales, lotes y pasarela representan una simulación creativa académica sin cobros reales.
           </p>
 
           <div className="footer-bottom">

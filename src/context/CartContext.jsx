@@ -16,26 +16,24 @@ const ALL_CATALOG_ITEMS = {
 
 function readInitialState() {
   if (typeof window === 'undefined') {
-    return { items: [], conEstuche: false, dedicatoria: '' };
+    return { items: [], dedicatoria: '' };
   }
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { items: [], conEstuche: false, dedicatoria: '' };
+    if (!raw) return { items: [], dedicatoria: '' };
     const parsed = JSON.parse(raw);
     return {
       items: Array.isArray(parsed.items) ? parsed.items : [],
-      conEstuche: Boolean(parsed.conEstuche),
       dedicatoria: typeof parsed.dedicatoria === 'string' ? parsed.dedicatoria : '',
     };
   } catch {
-    return { items: [], conEstuche: false, dedicatoria: '' };
+    return { items: [], dedicatoria: '' };
   }
 }
 
 export function CartProvider({ children }) {
   const initial = useMemo(() => readInitialState(), []);
   const [items, setItems] = useState(initial.items);
-  const [conEstuche, setConEstuche] = useState(initial.conEstuche);
   const [dedicatoria, setDedicatoria] = useState(initial.dedicatoria);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -46,12 +44,12 @@ export function CartProvider({ children }) {
     try {
       window.localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ items, conEstuche, dedicatoria })
+        JSON.stringify({ items, dedicatoria })
       );
     } catch {
       // Sin almacenamiento persistente disponible en navegación privada estricta
     }
-  }, [items, conEstuche, dedicatoria]);
+  }, [items, dedicatoria]);
 
   const showNotice = useCallback((text) => {
     setLiveMessage(text);
@@ -94,14 +92,15 @@ export function CartProvider({ children }) {
         return [...prev, { id: productId, quantity }];
       });
 
-      if (typeof options.conEstuche === 'boolean') {
-        setConEstuche(options.conEstuche);
-      }
-      if (typeof options.dedicatoria === 'string' && options.dedicatoria.trim()) {
+      if (typeof options.dedicatoria === 'string') {
         setDedicatoria(options.dedicatoria);
       }
 
-      showNotice(`Añadido a tu cesta: ${product.name} (${product.format}).`);
+      showNotice(
+        quantity > 1
+          ? `Añadidas ${quantity} uds. a tu cesta: ${product.name} (${product.format}).`
+          : `Añadido a tu cesta: ${product.name} (${product.format}).`
+      );
       if (options.openDrawer) {
         setIsDrawerOpen(true);
       }
@@ -139,7 +138,6 @@ export function CartProvider({ children }) {
   const clearCart = useCallback(() => {
     runWithOptionalTransition(() => {
       setItems([]);
-      setConEstuche(false);
       setDedicatoria('');
     });
     setLiveMessage('Cesta vaciada.');
@@ -169,25 +167,20 @@ export function CartProvider({ children }) {
     [detailedItems]
   );
 
-  const giftWrapCost = detailedItems.length > 0 && conEstuche ? GIFT_BOX.giftWrapPrice : 0;
-  const merchTotal = subtotal + giftWrapCost;
   const shippingCost =
-    merchTotal === 0 || merchTotal >= SHIPPING_CONFIG.freeThreshold
+    subtotal === 0 || subtotal >= SHIPPING_CONFIG.freeThreshold
       ? 0
       : SHIPPING_CONFIG.standardCost;
-  const grandTotal = merchTotal + shippingCost;
-  const amountToFreeShipping = Math.max(0, SHIPPING_CONFIG.freeThreshold - merchTotal);
+  const grandTotal = subtotal + shippingCost;
+  const amountToFreeShipping = Math.max(0, SHIPPING_CONFIG.freeThreshold - subtotal);
 
   const value = useMemo(
     () => ({
       items: detailedItems,
       totalCount,
       subtotal,
-      conEstuche,
-      setConEstuche,
       dedicatoria,
       setDedicatoria,
-      giftWrapCost,
       shippingCost,
       grandTotal,
       amountToFreeShipping,
@@ -205,9 +198,7 @@ export function CartProvider({ children }) {
       detailedItems,
       totalCount,
       subtotal,
-      conEstuche,
       dedicatoria,
-      giftWrapCost,
       shippingCost,
       grandTotal,
       amountToFreeShipping,

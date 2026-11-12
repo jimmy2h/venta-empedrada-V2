@@ -2,15 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ShoppingBasket, X } from 'lucide-react';
 import { CartProvider } from './context/CartContext';
 import { useCart } from './context/useCart';
-import { SiteHeader } from './components/SiteHeader';
+import { SiteHeader, StoreCategoryNav } from './components/SiteHeader';
 import { HeroBannerSection } from './components/HeroBannerSection';
-import { IconicShowcaseSection } from './components/IconicShowcaseSection';
 import { BentoMosaicSection } from './components/BentoMosaicSection';
 import { RecommendedCatalogSection } from './components/RecommendedCatalogSection';
 import { GiftBoxSection } from './components/GiftBoxSection';
-import { FincaStorySection } from './components/FincaStorySection';
+import { FincaBannerSection } from './components/FincaBannerSection';
+import { FincaView } from './components/FincaView';
 import { TraceabilityPracticesSection } from './components/TraceabilityPracticesSection';
-import { TableIdeasSection } from './components/TableIdeasSection';
 import { NewsletterShowcaseSection } from './components/NewsletterShowcaseSection';
 import { BrandIdentityView } from './components/BrandIdentityView';
 import { ProductDetailDialog } from './components/ProductDetailDialog';
@@ -20,8 +19,8 @@ import { SiteFooter } from './components/SiteFooter';
 function StorefrontShell({ initialView = 'tienda' }) {
   const [activeView, setActiveView] = useState(initialView);
   const [selectedCategory, setSelectedCategory] = useState('todos');
-  const [searchQuery, setSearchQuery] = useState('');
   const [inspectedProduct, setInspectedProduct] = useState(null);
+  const [isScrolledPastHero, setIsScrolledPastHero] = useState(false);
 
   const {
     isDrawerOpen,
@@ -34,8 +33,43 @@ function StorefrontShell({ initialView = 'tienda' }) {
   const isFirstRenderRef = useRef(true);
   const pendingSectionRef = useRef(null);
 
+  useEffect(() => {
+    if (activeView === 'finca') {
+      document.title = 'La finca · Venta Empedrada V2';
+    } else if (activeView === 'identidad') {
+      document.title = 'Sistema de marca · Venta Empedrada V2';
+    } else {
+      document.title = 'Venta Empedrada V2 · Despensa de Finca en Almería';
+    }
+  }, [activeView]);
+
+  useEffect(() => {
+    if (activeView !== 'tienda' || typeof IntersectionObserver === 'undefined') {
+      return undefined;
+    }
+
+    const heroEl = document.getElementById('inicio');
+    if (!heroEl) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolledPastHero(!entry.isIntersecting);
+      },
+      {
+        threshold: 0,
+        rootMargin: '-76px 0px 0px 0px',
+      }
+    );
+
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, [activeView]);
+
   const handleNavigate = useCallback((nextView, sectionId = null) => {
     pendingSectionRef.current = sectionId;
+    if (nextView !== 'tienda') {
+      setIsScrolledPastHero(false);
+    }
     setActiveView((prev) => {
       if (prev === nextView) {
         if (sectionId) {
@@ -81,16 +115,6 @@ function StorefrontShell({ initialView = 'tienda' }) {
     [handleNavigate]
   );
 
-  const handleSearchChange = useCallback(
-    (nextQuery) => {
-      setSearchQuery(nextQuery);
-      if (activeView !== 'tienda' && nextQuery.trim().length > 0) {
-        handleNavigate('tienda', 'recomendamos');
-      }
-    },
-    [activeView, handleNavigate]
-  );
-
   const hasOpenModal = isDrawerOpen || Boolean(inspectedProduct);
 
   return (
@@ -98,33 +122,37 @@ function StorefrontShell({ initialView = 'tienda' }) {
       <SiteHeader
         activeView={activeView}
         selectedCategory={selectedCategory}
-        searchQuery={searchQuery}
         onSelectCategory={setSelectedCategory}
-        onSearchChange={handleSearchChange}
         onNavigate={handleNavigate}
+        isScrolledPastHero={isScrolledPastHero}
       />
 
       <main>
         {activeView === 'tienda' ? (
           <>
-            <HeroBannerSection />
-            <IconicShowcaseSection onInspectProduct={setInspectedProduct} />
-            <BentoMosaicSection
-              onSelectCategoryAndScroll={handleSelectCategoryAndScroll}
+            <HeroBannerSection onOpenFinca={() => handleNavigate('finca')} />
+            <StoreCategoryNav
+              activeView={activeView}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+              onNavigate={handleNavigate}
             />
             <RecommendedCatalogSection
               selectedCategory={selectedCategory}
-              searchQuery={searchQuery}
               onSelectCategory={setSelectedCategory}
-              onClearSearch={() => setSearchQuery('')}
               onInspectProduct={setInspectedProduct}
             />
             <GiftBoxSection />
-            <FincaStorySection />
+            <FincaBannerSection onOpenFinca={() => handleNavigate('finca')} />
             <TraceabilityPracticesSection />
-            <TableIdeasSection />
+            <BentoMosaicSection
+              onSelectCategoryAndScroll={handleSelectCategoryAndScroll}
+              onNavigate={handleNavigate}
+            />
             <NewsletterShowcaseSection />
           </>
+        ) : activeView === 'finca' ? (
+          <FincaView onReturnToStore={() => handleNavigate('tienda')} />
         ) : (
           <BrandIdentityView onReturnToStore={() => handleNavigate('tienda')} />
         )}
